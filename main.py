@@ -1,8 +1,10 @@
-import discord
 from discord.ext import commands
 import json
 from difflib import get_close_matches
 from googletrans import Translator
+from dotenv import load_dotenv
+from os import getenv
+load_dotenv()
 
 # loading data
 data = json.load(open("data.json"))
@@ -38,7 +40,7 @@ def get_translation(text, dest='en'):
 # bot commands
 @bot.command()
 async def helpme(ctx):
-    await ctx.reply('Hi! Nǐn hǎo here. I\'ll be happy to help you.\n.meaning yourword - to find the meaning.\n.translate yoursentence - for English translation')
+    await ctx.reply('Hi! Nǐn hǎo here. How can I be your friend?\n.meaning yourword - to find the meaning.\n.translate yoursentence - for English translation')
 
 
 # get meaning
@@ -58,4 +60,4 @@ async def meaning(ctx, *, word):
 async def translate(ctx, *, word):
     await ctx.reply(get_translation(word))
 
-bot.run('OTEwNjA0NjU1NzE1ODIzNjQ2.YZVQrA.wSbnmHpovBpvcM_nwbKsFb7oDPI')
+bot.run(getenv('TOKEN'))
