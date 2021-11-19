@@ -1,5 +1,7 @@
+from asyncio import tasks
 import discord
-from discord.ext import commands
+from discord import channel
+from discord.ext import commands, tasks
 import json
 from difflib import get_close_matches
 from googletrans import Translator
@@ -32,6 +34,11 @@ def get_meaning(w):
         return f"Maybe you meant '{close_match[0]}' which means '{data[close_match[0]][0]}'"
     else:
         return "My bad! This might be a new word!"
+
+
+# get a random key for gerenating daily word meaning
+def get_random_key():
+    return random.choice(list(keys))
 
 
 # get one random meaning from meaning list
@@ -82,11 +89,24 @@ async def translate(ctx, *, str):
 async def TTH(ctx, *, str):
     await ctx.reply(get_translation(replace_quote(str), 'hi'))
 
+
 # get bangla translation
-
-
 @bot.command()
 async def TTB(ctx, *, str):
     await ctx.reply(get_translation(replace_quote(str), 'bn'))
+
+
+@bot.event
+async def on_ready():
+    daily_word.start()
+
+
+@tasks.loop(hours=24)
+async def daily_word():
+    word = get_random_key()
+    temp = get_meaning(word)
+    channel = bot.get_channel(911305088964898876)
+    await channel.send(f"Today's word: '{word}' which means '{get_random_meaning(temp)}'")
+
 
 bot.run(getenv('TOKEN'))
