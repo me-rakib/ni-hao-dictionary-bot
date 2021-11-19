@@ -34,20 +34,30 @@ def get_meaning(w):
 
 
 # translation
-def get_translation(text, dest='en'):
-    return translator.translate(text, dest).text
+def get_translation(str, dest='en'):
+    return translator.translate(str, dest).text
 
+
+# replacing ' and " from string
+def replace_quote(str):
+    return str.replace("'", '').replace('"', '')
 
 # bot commands
+
+
 @bot.command()
 async def helpme(ctx):
-    await ctx.reply('Hi! Nǐn hǎo here. How can I be your friend?\n.meaning yourword - to find the meaning.\n.translate yoursentence - for English translation')
+    await ctx.reply('''Hi! Nǐn hǎo here. How can I be your friend?
+    .meaning yourword - to find the meaning.
+    .translate yoursentence - for English translation
+    .TTH yoursentence - for Hindi translation
+    .TTB yoursentence - for Bangla translation''')
 
 
 # get meaning
 @bot.command()
-async def meaning(ctx, *, word):
-    temp = get_meaning(word.lower())
+async def meaning(ctx, *, str):
+    temp = get_meaning(replace_quote(str).lower())
     output = ''
     if type(temp) == list:
         output = temp[0]
@@ -58,18 +68,20 @@ async def meaning(ctx, *, word):
 
 # get english translations
 @bot.command()
-async def translate(ctx, *, sentence):
-    await ctx.reply(get_translation(sentence))
+async def translate(ctx, *, str):
+    await ctx.reply(get_translation(replace_quote(str)))
 
 
 # get hindi translation
 @bot.command()
-async def TTH(ctx, *, sentence):
-    await ctx.reply(get_translation(sentence, 'hi')) 
+async def TTH(ctx, *, str):
+    await ctx.reply(get_translation(replace_quote(str), 'hi'))
 
 # get bangla translation
+
+
 @bot.command()
-async def TTB(ctx, *, sentence):
-    await ctx.reply(get_translation(sentence, 'bn')) 
+async def TTB(ctx, *, str):
+    await ctx.reply(get_translation(replace_quote(str), 'bn'))
 
 bot.run(getenv('TOKEN'))
