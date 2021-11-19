@@ -5,10 +5,12 @@ from difflib import get_close_matches
 from googletrans import Translator
 from dotenv import load_dotenv
 from os import getenv
+import random
 load_dotenv()
 
 # loading data
 data = json.load(open("data.json"))
+keys = data.keys()
 
 # period as prefix to call bot command
 bot = commands.Bot(command_prefix='.')
@@ -19,7 +21,6 @@ translator = Translator()
 
 # find word meaning
 def get_meaning(w):
-    keys = data.keys()
     close_match = get_close_matches(w, keys)
     if w in keys:
         return data[w]
@@ -33,6 +34,16 @@ def get_meaning(w):
         return "My bad! This might be a new word!"
 
 
+# get one random meaning from meaning list
+def get_random_meaning(meaning_list):
+    output = ''
+    if type(meaning_list) == list:
+        output = random.choice(meaning_list)
+    else:
+        output = meaning_list
+    return output
+
+
 # translation
 def get_translation(str, dest='en'):
     return translator.translate(str, dest).text
@@ -42,9 +53,8 @@ def get_translation(str, dest='en'):
 def replace_quote(str):
     return str.replace("'", '').replace('"', '')
 
+
 # bot commands
-
-
 @bot.command()
 async def helpme(ctx):
     await ctx.reply('''Hi! Nǐn hǎo here. How can I be your friend?
@@ -58,12 +68,7 @@ async def helpme(ctx):
 @bot.command()
 async def meaning(ctx, *, str):
     temp = get_meaning(replace_quote(str).lower())
-    output = ''
-    if type(temp) == list:
-        output = temp[0]
-    else:
-        output = temp
-    await ctx.reply(output)
+    await ctx.reply(get_random_meaning(temp))
 
 
 # get english translations
