@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 import json
 from difflib import get_close_matches
@@ -55,9 +56,20 @@ async def meaning(ctx, *, word):
     await ctx.reply(output)
 
 
-# get translation
+# get english translations
 @bot.command()
-async def translate(ctx, *, word):
-    await ctx.reply(get_translation(word))
+async def translate(ctx, *, sentence):
+    await ctx.reply(get_translation(sentence))
+
+
+# get hindi translation
+@bot.command()
+async def TTH(ctx, *, sentence):
+    await ctx.reply(get_translation(sentence, 'hi')) 
+
+# get bangla translation
+@bot.command()
+async def TTB(ctx, *, sentence):
+    await ctx.reply(get_translation(sentence, 'bn')) 
 
 bot.run(getenv('TOKEN'))
