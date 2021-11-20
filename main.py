@@ -1,10 +1,9 @@
-from asyncio import tasks
 import discord
-from discord import channel
 from discord.ext import commands, tasks
 import json
 from difflib import get_close_matches
-from googletrans import Translator
+# from googletrans import Translator
+from deep_translator import GoogleTranslator
 from dotenv import load_dotenv
 from os import getenv
 import random
@@ -18,7 +17,7 @@ keys = data.keys()
 bot = commands.Bot(command_prefix='.')
 
 # creating an instance of translator
-translator = Translator()
+# translator = Translator()
 
 
 # find word meaning
@@ -52,8 +51,11 @@ def get_random_meaning(meaning_list):
 
 
 # translation
+# def get_translation(str, dest='en'):
+#     return translator.translate(str, dest).text
+
 def get_translation(str, dest='en'):
-    return translator.translate(str, dest).text
+    return GoogleTranslator(source='auto', target=dest).translate(str)
 
 
 # replacing ' and " from string
