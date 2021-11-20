@@ -79,20 +79,22 @@ def print_list(list_contain, word, word_list):
         return f'{list_contain} words of \'{word}\': {str(word_list).replace("]", "").replace("[", "")} etc.'
 
 
-
 # replacing ' and " from string
 def replace_quote(str):
     return str.replace("'", '').replace('"', '')
 
 
 # bot commands
+# get help
 @bot.command()
 async def helpme(ctx):
     await ctx.reply('''Hi! Nǐn hǎo here. How can I be your friend?
-    .meaning yourword - to find the meaning.
-    .translate yoursentence - for English translation
-    .TTH yoursentence - for Hindi translation
-    .TTB yoursentence - for Bangla translation''')
+    .meaning word - for meaning
+    .synonym word - for synonyms
+    .antonym word - for antonyms
+    .translate text - for English translation
+    .TTH text - for Hindi translation
+    .TTB text - for Bangla translation''')
 
 
 # get meaning
