@@ -14,7 +14,7 @@ Nǐn hǎo is a dictionary bot made for Discord servers. Currently, It can be use
 Use this [invitation link](https://discord.com/oauth2/authorize?client_id=910604655715823646&permissions=274877986816&scope=bot) to add **Nǐn hǎo** into your server.
 
 ## Usage
-Join my [server]((https://discord.gg/5h9tpFcBzw)) to test **Nǐn hǎo**. 
+Join my [server](https://discord.gg/5h9tpFcBzw) to test **Nǐn hǎo**. 
 * To get help
 ```
 .helpme
