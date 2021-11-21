@@ -1,4 +1,5 @@
 import discord
+from discord import message
 from discord.ext import commands, tasks
 import json
 from difflib import get_close_matches
@@ -7,11 +8,17 @@ from nltk.corpus import wordnet
 from dotenv import load_dotenv
 from os import getenv
 import random
+import asyncio
 load_dotenv()
 
 # loading data
 data = json.load(open("data.json"))
 keys = data.keys()
+
+# bot status
+status_games = ['Scrabble', 'Hangman', 'Wordplay: Exercise your brain',
+                'TypeShift', 'Words of Wonders: Crossword to Connect Vocabulary']
+status_listen = ['Podcast', 'BBC News']
 
 # period as prefix to call bot command
 bot = commands.Bot(command_prefix='.')
@@ -84,6 +91,15 @@ def replace_quote(str):
     return str.replace("'", '').replace('"', '')
 
 
+# change bot status after one hour
+async def status_task():
+    while True:
+        await bot.change_presence(activity=discord.Game(name=random.choice(status_games)))
+        await asyncio.sleep(3550)
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=random.choice(status_listen)))
+        await asyncio.sleep(3550)
+
+
 # bot commands
 # get help
 @bot.command()
@@ -133,13 +149,16 @@ async def synonym(ctx, txt):
 async def antonym(ctx, txt):
     await ctx.reply(print_list('Opposite', txt, get_antonym(txt)[:5]))
 
-
+# events
 @bot.event
 async def on_ready():
+    print(f"Logged in as {bot.user.name} #{bot.user.id}")
     daily_word.start()
+    bot.loop.create_task(status_task())
 
 
-@tasks.loop(hours=1)
+# send daily word
+@tasks.loop(hours=23.9)
 async def daily_word():
     word = get_random_key()
     temp = get_meaning(word)
