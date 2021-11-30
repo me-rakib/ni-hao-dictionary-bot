@@ -68,6 +68,9 @@ Join my [server](https://discord.gg/5h9tpFcBzw) to test **Nǐn hǎo**.
 
 ##### **If bot is offline please DM on discord* - tanaf#7255
 
+### Live Demo 
+* [Click Here](https://drive.google.com/file/d/1A5V11Bb4Wdwc72mid0h_o0q6RdAEzy_i/view?usp=sharing)
+
 ## Credits
 * Dictionary data
     - [dictionary.json](https://gist.github.com/jupiterdv/31da602ffffe2697292164456b2e2558)
